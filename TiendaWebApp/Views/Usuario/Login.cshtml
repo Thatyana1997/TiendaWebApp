@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Inicio de Sesión";
+}
+
+<div class="login-container">
+    <h2>Iniciar Sesión</h2>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="error-message">@ViewBag.Error</div>
+    }
+
+    <form asp-action="Login" method="post">
+        <div class="input-field">
+            <input type="email" id="email" name="email" class="validate" required />
+            <label for="email">Email</label>
+        </div>
+        <div class="input-field">
+            <input type="password" id="contrasena" name="contrasena" class="validate" required />
+            <label for="contrasena">Contraseña</label>
+        </div>
+        <button type="submit" class="btn waves-effect waves-light blue">Ingresar</button>
+    </form>
+
+    <p class="center-align">
+        ¿No tienes cuenta? <a asp-action="Registro" class="blue-text text-darken-2">Regístrate aquí</a>.
+    </p>
+</div>
