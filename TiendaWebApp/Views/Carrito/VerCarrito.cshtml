@@ -1,0 +1,44 @@
+﻿@model List<TiendaWebApp.Models.PedidoDetalle>
+
+<div class="container">
+    <h2>Tu Carrito</h2>
+    @if (Model.Count > 0)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio Unitario</th>
+                    <th>Subtotal</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@(item.Producto?.Nombre ?? "Producto no encontrado")</td>
+                        <td>@item.Cantidad</td>
+                        <td>₡@item.PrecioUnitario</td>
+                        <td>₡@(item.Cantidad * item.PrecioUnitario)</td>
+                        <td>
+                            <a href="@Url.Action("EliminarDelCarrito", "Carrito", new { idProducto = item.ProductoID })" class="btn btn-danger btn-sm">Eliminar</a>
+                           
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="text-right">
+            <p><strong>Total: </strong>₡@Model.Sum(item => item.Cantidad * item.PrecioUnitario)</p>
+            <a href="@Url.Action("ConfirmarPedido", "Carrito")" class="btn btn-success">Confirmar Pedido</a>
+            <a href="@Url.Action("Index", "Home")" class="btn blue">Regresar</a>
+        </div>
+    }
+    else
+    {
+        <p>Tu carrito está vacío.</p>
+    }
+</div>

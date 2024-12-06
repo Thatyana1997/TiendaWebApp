@@ -1,0 +1,18 @@
+﻿@foreach (var producto in Model.Productos)
+{
+    <div class="col s12 m6 l4">
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title">@producto.Nombre</span>
+                <p>@producto.Descripcion</p>
+                <p class="green-text">₡@producto.Precio</p>
+            </div>
+            <div class="card-action">
+                <a href="@Url.Action("AgregarAlCarrito", "Carrito", new { idProducto = producto.ProductoID })" class="btn btn-primary btn-sm">
+                    Agregar al Carrito
+                </a>
+                <a href="@Url.Action("Index", "Home")" class="btn blue">Regresar</a>
+            </div>
+        </div>
+    </div>
+}
