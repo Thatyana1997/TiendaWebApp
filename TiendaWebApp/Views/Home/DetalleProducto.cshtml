@@ -1,0 +1,12 @@
+﻿@model Producto
+
+<div class="container">
+    <h1>@Model.Nombre</h1>
+    <p>@Model.Descripcion</p>
+    <p><strong>Precio:</strong> ₡@Model.Precio</p>
+    <p><strong>Stock disponible:</strong> @Model.Stock</p>
+    <div>
+        <a href="@Url.Action("AgregarAlCarrito", "Carrito", new { id = Model.ProductoID })" class="btn green">Agregar al carrito</a>
+        <a href="@Url.Action("Index", "Home")" class="btn blue">Regresar</a>
+    </div>
+</div>

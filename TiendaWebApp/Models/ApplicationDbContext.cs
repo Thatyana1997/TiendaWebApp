@@ -8,6 +8,7 @@ namespace TiendaWebApp.Models
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
+        public DbSet<Categoria> Categorias { get; set; }
         public DbSet<Producto> Productos { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Cliente> Clientes { get; set; }
@@ -17,6 +18,13 @@ namespace TiendaWebApp.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //modelBuilder.Entity<Categoria>().HasKey(ca => ca.CategoriaID);
+            modelBuilder.Entity<Categoria>()
+             .HasMany(c => c.Productos)
+             .WithOne(p => p.Categoria)
+             .HasForeignKey(p => p.CategoriaID);
+
+
             modelBuilder.Entity<Producto>().HasKey(p => p.ProductoID);
             modelBuilder.Entity<Usuario>().HasKey(u => u.UsuarioID);
             modelBuilder.Entity<Cliente>().HasKey(c => c.ClienteID);

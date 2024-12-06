@@ -1,8 +1,57 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model List<Categoria>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <div class="text-center">
+        <div class="welcome-container">
+            <h1>¡Bienvenido a <span class="store-name">El Chunche Online</span>!</h1>
+            <p>
+                Nos alegra que estés aquí. En nuestra tienda de chunches en línea encontrarás todo lo que necesitas,
+                desde productos esenciales hasta artículos únicos que harán tu día más especial.
+            </p>
+            <ul>
+                <li>💡 <strong>Explora, descubre y disfruta</strong>:</li>
+                <li>- Amplia selección de productos.</li>
+                <li>- Ofertas y promociones irresistibles.</li>
+                <li>- Envío rápido y seguro.</li>
+            </ul>
+            <p>¡Comienza tu experiencia de compra ahora y déjanos ser parte de tu día a día! 😊</p>
+        </div>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        @foreach (var categoria in Model)
+        {
+            <h4 class="blue-text text-darken-2">@categoria.Nombre</h4>
+            <div class="row">
+                @if (categoria.Productos != null && categoria.Productos.Any())
+                {
+                    @foreach (var producto in categoria.Productos)
+                    {
+                        <div class="col s12 m6 l4">
+                            <div class="card">
+                                <div class="card-content">
+                                    <span class="card-title">@producto.Nombre</span>
+                                    <p>@producto.Descripcion</p>
+                                    <p class="green-text">₡@producto.Precio</p>
+                                </div>
+                                <div class="card-action">
+                                    <a href="@Url.Action("DetalleProducto", "Home", new { id = producto.ProductoID })" class="blue-text text-darken-2">Ver detalles</a>
+                                   @*  <a href="@Url.Action("AgregarAlCarrito", "Carrito", new { id = producto.ProductoID })" class="green-text text-darken-2">Comprar</a> *@
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p class="red-text">No hay productos en esta categoría.</p>
+                }
+            </div>
+        }
+    }
+    else
+    {
+        <p class="red-text">No hay categorías disponibles.</p>
+    }
 </div>

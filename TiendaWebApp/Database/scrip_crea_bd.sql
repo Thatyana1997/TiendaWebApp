@@ -40,18 +40,26 @@ CREATE TABLE Clientes (
     FOREIGN KEY (UsuarioID) REFERENCES Usuarios(UsuarioID)
 );
 
+-- Tabla Categorias
+CREATE TABLE Categorias (
+    CategoriaID INT PRIMARY KEY IDENTITY(1,1),
+    Nombre NVARCHAR(100) NOT NULL,
+    Descripcion NVARCHAR(255)
+);
+
 -- Tabla Productos
 CREATE TABLE Productos (
     ProductoID INT PRIMARY KEY IDENTITY(1,1),
     Nombre NVARCHAR(100) NOT NULL,
     Descripcion NVARCHAR(500),
     Precio DECIMAL(10, 2) NOT NULL,
-    Categoria NVARCHAR(100),
+    CategoriaID INT,
     Stock INT NOT NULL,
     FechaAdicion DATETIME DEFAULT GETDATE(),
     AdicionadoPor NVARCHAR(255),
     FechaModificacion DATETIME NULL,
     ModificadoPor NVARCHAR(255) NULL
+    FOREIGN KEY (CategoriaID) REFERENCES Categorias(CategoriaID)
 );
 
 -- Tabla Pedidos

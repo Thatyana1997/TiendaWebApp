@@ -2,12 +2,17 @@
 {
     public class Producto
     {
-        public int ProductoID { get; set; }
-        public string Nombre { get; set; }
-        public string Descripcion { get; set; }
-        public decimal Precio { get; set; }
-        public string Categoria { get; set; }
-        public int Stock { get; set; }
+        public int ProductoID { get; set; } // Llave primaria
+        public string Nombre { get; set; } // Nombre del producto
+        public string Descripcion { get; set; } // Descripción del producto
+        public decimal Precio { get; set; } // Precio del producto
+        public int Stock { get; set; } // Cantidad en stock
+
+        // Llave foránea hacia Categorias
+        public int CategoriaID { get; set; }
+        public Categoria Categoria { get; set; } // Propiedad de navegación
+
+        // Metadatos de auditoría
         public DateTime FechaAdicion { get; set; } = DateTime.Now;
         public string AdicionadoPor { get; set; }
         public DateTime? FechaModificacion { get; set; }
