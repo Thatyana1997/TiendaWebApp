@@ -18,7 +18,7 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>@(item.Producto?.Nombre ?? "Producto no encontrado")</td>
+                        <td>@(item.Producto?.Descripcion ?? "Producto no encontrado")</td>
                         <td>@item.Cantidad</td>
                         <td>₡@item.PrecioUnitario</td>
                         <td>₡@(item.Cantidad * item.PrecioUnitario)</td>

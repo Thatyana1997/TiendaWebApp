@@ -61,6 +61,12 @@ namespace TiendaWebApp.Controllers
                 ? JsonConvert.DeserializeObject<List<PedidoDetalle>>(carritoJson)
                 : new List<PedidoDetalle>();
 
+            // Cargar los datos del producto para cada detalle
+            foreach (var item in carrito)
+            {
+                item.Producto = _context.Productos.FirstOrDefault(p => p.ProductoID == item.ProductoID);
+            }
+
             return View(carrito);
         }
 
