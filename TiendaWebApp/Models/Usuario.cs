@@ -11,7 +11,6 @@
         public string AdicionadoPor { get; set; }
         public DateTime? FechaModificacion { get; set; }
         public string? ModificadoPor { get; set; }
-
-        public Rol Rol { get; set; }
+         
     }
 }

@@ -48,14 +48,26 @@ namespace TiendaWebApp.Controllers
         [HttpPost]
         public IActionResult Registro(Usuario nuevoUsuario)
         {
+            // Excluir campos  de la validación porque se asigna automáticamente despues 
+            ModelState.Remove(nameof(Usuario.RolID));
+            ModelState.Remove(nameof(Usuario.FechaRegistro));
+            ModelState.Remove(nameof(Usuario.FechaAdicion));
+            ModelState.Remove(nameof(Usuario.AdicionadoPor));
+
             if (ModelState.IsValid)
             {
+                nuevoUsuario.FechaAdicion = DateTime.Now;
+                nuevoUsuario.AdicionadoPor = "AppUser"; //Fue registrado por el app
                 nuevoUsuario.FechaRegistro = DateTime.Now;
+                nuevoUsuario.RolID = 3; // Cliente 
                 _context.Usuarios.Add(nuevoUsuario);
                 _context.SaveChanges();
 
                 // Redirigir al inicio de sesión después del registro
-                return RedirectToAction("Login");
+                //return RedirectToAction("Login");
+
+                // Volver a la misma vista con el modelo actualizado
+                return View(nuevoUsuario);
             }
 
             return View(nuevoUsuario);

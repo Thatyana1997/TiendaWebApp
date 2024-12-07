@@ -3,27 +3,42 @@
     ViewData["Title"] = "Registro";
 }
 
-<h2>Registro de Usuario</h2>
+<div class="container">
+    <h2 class="center-align">Registro de Usuario</h2>
 
-<form asp-action="Registro" method="post">
-    <div>
-        <label>Email:</label>
-        <input asp-for="Email" required />
-        <span asp-validation-for="Email"></span>
-    </div>
-    <div>
-        <label>Contraseña:</label>
-        <input asp-for="Contrasena" type="password" required />
-        <span asp-validation-for="Contrasena"></span>
-    </div>
-    <div>
-        <label>Adicionado Por:</label>
-        <input asp-for="AdicionadoPor" required />
-        <span asp-validation-for="AdicionadoPor"></span>
-    </div>
-    <button type="submit">Registrarse</button>
-</form>
+    <form asp-action="Registro" method="post">
+        <div class="row">
+            <div class="input-field col s12">
+                <input asp-for="Email" type="email" class="validate" required />
+                <label asp-for="Email">Email</label>
+                <span class="helper-text" asp-validation-for="Email"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <input asp-for="Contrasena" type="password" class="validate" required />
+                <label asp-for="Contrasena">Contraseña</label>
+                <span class="helper-text" asp-validation-for="Contrasena"></span>
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" class="btn waves-effect waves-light blue col s12">Registrarse</button>
+        </div>
+    </form>
 
-<p>
-    ¿Ya tienes cuenta? <a asp-action="Login">Inicia sesión aquí</a>.
-</p>
+    @if (Model != null && Model.FechaRegistro != default(DateTime))
+    {
+        <div class="row">
+            <div class="card-panel green lighten-4 green-text text-darken-4">
+                <ul>
+                    <li><strong>Adicionado Por:</strong> @Model.AdicionadoPor</li>
+                    <li><strong>Fecha de Registro:</strong> @Model.FechaRegistro.ToString("dd/MM/yyyy HH:mm")</li>
+                </ul>
+            </div>
+        </div>
+    }
+
+    <p class="center-align">
+        ¿Ya tienes cuenta? <a asp-action="Login" class="blue-text text-darken-2">Inicia sesión aquí</a>.
+    </p>
+</div>
