@@ -31,7 +31,7 @@ namespace TiendaWebApp.Controllers
                 // Establecer una sesión o cookie de usuario
                 HttpContext.Session.SetInt32("UsuarioID", usuario.UsuarioID);
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Productos");
             }
 
             ViewBag.Error = "Correo o contraseña incorrectos.";

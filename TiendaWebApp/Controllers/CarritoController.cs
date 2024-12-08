@@ -156,7 +156,7 @@ namespace TiendaWebApp.Controllers
             HttpContext.Session.Remove("Carrito");
 
             TempData["Exito"] = "Pedido confirmado con éxito.";
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Productos");
         }
 
         // Acción para eliminar un producto del carrito

@@ -5,12 +5,12 @@ using TiendaWebApp.Models;
 
 namespace TiendaWebApp.Controllers
 {
-    public class HomeController : Controller
+    public class ProductosController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<ProductosController> _logger;
         private readonly ApplicationDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
+        public ProductosController(ILogger<ProductosController> logger, ApplicationDbContext context)
         {
             _logger = logger;
             _context = context;

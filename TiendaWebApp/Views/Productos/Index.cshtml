@@ -36,7 +36,7 @@
                                     <p class="green-text">₡@producto.Precio</p>
                                 </div>
                                 <div class="card-action">
-                                    <a href="@Url.Action("DetalleProducto", "Home", new { id = producto.ProductoID })" class="blue-text text-darken-2">Ver detalles</a>
+                                    <a href="@Url.Action("DetalleProducto", "Productos", new { id = producto.ProductoID })" class="blue-text text-darken-2">Ver detalles</a>
                                     <a href="@Url.Action("AgregarAlCarrito", "Carrito", new { idProducto = producto.ProductoID })" class="green-text text-darken-2">Comprar</a>
                                 </div>
                             </div>
