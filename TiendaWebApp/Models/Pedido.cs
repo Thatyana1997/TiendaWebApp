@@ -13,5 +13,8 @@
         public string? ModificadoPor { get; set; }
 
         public Cliente Cliente { get; set; }
+
+        // Relación con la tabla Productos
+        public ICollection<PedidoDetalle> Detalles { get; set; } = new List<PedidoDetalle>();
     }
 }

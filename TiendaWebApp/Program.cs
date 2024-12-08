@@ -18,7 +18,7 @@ builder.Services.AddSession(options =>
 
 // Configura el contexto de la base de datos
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")).EnableSensitiveDataLogging().LogTo(Console.WriteLine));
 
 
 var app = builder.Build();

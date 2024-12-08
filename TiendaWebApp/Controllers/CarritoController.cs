@@ -71,8 +71,11 @@ namespace TiendaWebApp.Controllers
         }
 
         // Acción para confirmar el pedido
-        public IActionResult ConfirmarPedido()
+       public IActionResult ConfirmarPedido()
         {
+            string nombreUsuario = null;
+
+            // Obtener el carrito desde la sesión
             var carritoJson = HttpContext.Session.GetString("Carrito");
             var carrito = carritoJson != null
                 ? JsonConvert.DeserializeObject<List<PedidoDetalle>>(carritoJson)
@@ -80,34 +83,79 @@ namespace TiendaWebApp.Controllers
 
             if (carrito == null || !carrito.Any())
             {
+                TempData["Error"] = "El carrito está vacío. Agregue productos antes de confirmar el pedido.";
+                return RedirectToAction("VerCarrito");
+            }
+
+            // Obtener el usuario logueado
+            var usuarioId = HttpContext.Session.GetInt32("UsuarioID");
+            if (usuarioId == null)
+            {
+                TempData["Error"] = "Debe iniciar sesión para confirmar el pedido.";
+                return RedirectToAction("Login", "Usuario");
+            }
+
+            var usuario = _context.Usuarios.FirstOrDefault(c => c.UsuarioID == usuarioId);
+            if (usuario == null)
+            {
+                TempData["Error"] = "El usuario no fue encontrado.";
+                return RedirectToAction("VerCarrito");
+            }
+            nombreUsuario = usuario.Email;
+
+            // Obtener el cliente asociado al usuario
+            var cliente = _context.Clientes.FirstOrDefault(c => c.UsuarioID == usuarioId);
+            if (cliente == null)
+            {
+                TempData["Error"] = "El cliente asociado no fue encontrado.";
                 return RedirectToAction("VerCarrito");
             }
 
             // Crear el pedido
             var pedido = new Pedido
             {
-                ClienteID = 5/* Obtener el ID del cliente logueado */,
+                ClienteID = cliente.ClienteID,
                 Estado = "Pendiente",
                 PrecioTotal = carrito.Sum(c => c.Cantidad * c.PrecioUnitario),
                 FechaAdicion = DateTime.Now,
-                AdicionadoPor = User.Identity?.Name ?? "Anonimo"
+                AdicionadoPor = nombreUsuario
             };
 
             _context.Pedidos.Add(pedido);
             _context.SaveChanges();
 
             // Asociar los detalles del pedido
+            var detallesPedido = new List<PedidoDetalle>();
             foreach (var item in carrito)
             {
-                item.PedidoID = pedido.PedidoID;
-                _context.PedidoDetalles.Add(item);
+                var producto = _context.Productos.FirstOrDefault(c => c.ProductoID == item.ProductoID);
+                if (producto == null)
+                {
+                    TempData["Error"] = $"El producto con ID {item.ProductoID} no existe.";
+                    return RedirectToAction("VerCarrito");
+                }
+
+                var detalle = new PedidoDetalle
+                {
+                    PedidoID = pedido.PedidoID,
+                    ProductoID = producto.ProductoID,
+                    Cantidad = item.Cantidad,
+                    PrecioUnitario = producto.Precio,
+                    FechaAdicion = DateTime.Now,
+                    AdicionadoPor = nombreUsuario
+                };
+
+                detallesPedido.Add(detalle);
+                
             }
 
+            _context.PedidoDetalles.AddRange(detallesPedido);   
             _context.SaveChanges();
 
             // Limpiar el carrito
             HttpContext.Session.Remove("Carrito");
 
+            TempData["Exito"] = "Pedido confirmado con éxito.";
             return RedirectToAction("Index", "Home");
         }
 

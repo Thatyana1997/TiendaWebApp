@@ -18,24 +18,28 @@ namespace TiendaWebApp.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<Categoria>().HasKey(ca => ca.CategoriaID);
             modelBuilder.Entity<Categoria>()
                  .HasMany(c => c.Productos)
                  .WithOne(p => p.Categoria)
                  .HasForeignKey(p => p.CategoriaID);
 
-            //modelBuilder.Entity<Cliente>()
-            //   .HasOne(c => c.UsuarioID)
-            //   .WithMany() // Un usuario puede estar asociado a un cliente
-            //   .HasForeignKey(c => c.UsuarioID);
+
+            modelBuilder.Entity<PedidoDetalle>()
+                .ToTable("PedidoDetalle"); // Nombre correcto de la tabla
+
+            modelBuilder.Entity<PedidoDetalle>()
+                .HasOne(pd => pd.Pedido)
+                .WithMany(p => p.Detalles)
+                .HasForeignKey(pd => pd.PedidoID);
 
 
-            modelBuilder.Entity<Producto>().HasKey(p => p.ProductoID);
+            modelBuilder.Entity<Rol>().HasKey(r => r.RolID);
             modelBuilder.Entity<Usuario>().HasKey(u => u.UsuarioID);
             modelBuilder.Entity<Cliente>().HasKey(c => c.ClienteID);
-            modelBuilder.Entity<Pedido>().HasKey(pe => pe.PedidoID);
-            modelBuilder.Entity<PedidoDetalle>().HasKey(pd => pd.PedidoDetalleID);
-            modelBuilder.Entity<Rol>().HasKey(r => r.RolID);
+
+            modelBuilder.Entity<Producto>().HasKey(p => p.ProductoID);
+
+            modelBuilder.Entity<PedidoDetalle>().HasKey(p => p.PedidoDetalleID);
 
             base.OnModelCreating(modelBuilder);
         }
