@@ -8,10 +8,10 @@
                 <p class="green-text">₡@producto.Precio</p>
             </div>
             <div class="card-action">
-                <a href="@Url.Action("AgregarAlCarrito", "Carrito", new { idProducto = producto.ProductoID })" class="btn btn-primary btn-sm">
+                <a href="@Url.Action("VerCarrito", "Carrito", new { idProducto = producto.ProductoID })" class="btn btn-primary btn-sm">
                     Agregar al Carrito
                 </a>
-                <a href="@Url.Action("Index", "Home")" class="btn blue">Regresar</a>
+                <a href="@Url.Action("Index", "Home")" class="btn blue">Seguir comprando</a>
             </div>
         </div>
     </div>

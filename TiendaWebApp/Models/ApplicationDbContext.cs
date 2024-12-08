@@ -20,9 +20,14 @@ namespace TiendaWebApp.Models
         {
             //modelBuilder.Entity<Categoria>().HasKey(ca => ca.CategoriaID);
             modelBuilder.Entity<Categoria>()
-             .HasMany(c => c.Productos)
-             .WithOne(p => p.Categoria)
-             .HasForeignKey(p => p.CategoriaID);
+                 .HasMany(c => c.Productos)
+                 .WithOne(p => p.Categoria)
+                 .HasForeignKey(p => p.CategoriaID);
+
+            //modelBuilder.Entity<Cliente>()
+            //   .HasOne(c => c.UsuarioID)
+            //   .WithMany() // Un usuario puede estar asociado a un cliente
+            //   .HasForeignKey(c => c.UsuarioID);
 
 
             modelBuilder.Entity<Producto>().HasKey(p => p.ProductoID);

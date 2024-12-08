@@ -6,7 +6,7 @@
     <p><strong>Precio:</strong> ₡@Model.Precio</p>
     <p><strong>Stock disponible:</strong> @Model.Stock</p>
     <div>
-        <a href="@Url.Action("AgregarAlCarrito", "Carrito", new { id = Model.ProductoID })" class="btn green">Agregar al carrito</a>
-        <a href="@Url.Action("Index", "Home")" class="btn blue">Regresar</a>
+        <a href="@Url.Action("AgregarAlCarrito", "Carrito", new { idProducto = Model.ProductoID })" class="btn green">Agregar al Carrito</a> 
+        <a href="@Url.Action("Index", "Home")" class="btn blue">Seguir comprando</a>
     </div>
 </div>

@@ -21,18 +21,50 @@
                 <span class="helper-text" asp-validation-for="Contrasena"></span>
             </div>
         </div>
+
+        <!-- Campos adicionales para el cliente -->
+        <div class="row">
+            <div class="input-field col s6">
+                <input name="Nombre" type="text" class="validate" required />
+                <label for="Nombre">Nombre</label>
+            </div>
+            <div class="input-field col s6">
+                <input name="Apellido" type="text" class="validate" required />
+                <label for="Apellido">Apellido</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field col s12">
+                <input name="Direccion" type="text" class="validate" required />
+                <label for="Direccion">Dirección</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field col s6">
+                <input name="Telefono" type="text" class="validate" required />
+                <label for="Telefono">Teléfono</label>
+            </div>
+
+            <div class="input-field col s6">
+                <input name="FechaNacimiento" type="date" class="validate" required />
+                <label for="FechaNacimiento">Fecha de Nacimiento</label>
+            </div>
+        </div> 
+       
         <div class="row">
             <button type="submit" class="btn waves-effect waves-light blue col s12">Registrarse</button>
         </div>
     </form>
 
-    @if (Model != null && Model.FechaRegistro != default(DateTime))
+    @if (Model != null && Model.AdicionadoPor != null )
     {
         <div class="row">
             <div class="card-panel green lighten-4 green-text text-darken-4">
                 <ul>
                     <li><strong>Adicionado Por:</strong> @Model.AdicionadoPor</li>
-                    <li><strong>Fecha de Registro:</strong> @Model.FechaRegistro.ToString("dd/MM/yyyy HH:mm")</li>
+                    <li><strong>Fecha de Adición:</strong> @Model.FechaAdicion.ToString("dd/MM/yyyy HH:mm")</li>
                 </ul>
             </div>
         </div>

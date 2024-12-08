@@ -48,26 +48,71 @@ namespace TiendaWebApp.Controllers
         [HttpPost]
         public IActionResult Registro(Usuario nuevoUsuario)
         {
+
+            int rolIdCliente = 0;
             // Excluir campos  de la validación porque se asigna automáticamente despues 
+            //Usuario
             ModelState.Remove(nameof(Usuario.RolID));
             ModelState.Remove(nameof(Usuario.FechaRegistro));
             ModelState.Remove(nameof(Usuario.FechaAdicion));
             ModelState.Remove(nameof(Usuario.AdicionadoPor));
 
+            //cliente
+            ModelState.Remove(nameof(Cliente.UsuarioID));
+            ModelState.Remove(nameof(Cliente.FechaAdicion));
+            ModelState.Remove(nameof(Cliente.AdicionadoPor));
+
+            if (_context.Usuarios.Any(u => u.Email == nuevoUsuario.Email))
+            {
+                ModelState.AddModelError("Email", "El correo electrónico ya está registrado.");
+            }
+            else
+            {
+                var rolCliente = _context.Roles.FirstOrDefault(r => r.NombreRol == "Cliente");
+                if (rolCliente != null)
+                {
+                     rolIdCliente = rolCliente.RolID; 
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 nuevoUsuario.FechaAdicion = DateTime.Now;
                 nuevoUsuario.AdicionadoPor = "AppUser"; //Fue registrado por el app
-                nuevoUsuario.FechaRegistro = DateTime.Now;
-                nuevoUsuario.RolID = 3; // Cliente 
+                nuevoUsuario.FechaRegistro = DateTime.Now; 
+                nuevoUsuario.RolID = rolIdCliente;
                 _context.Usuarios.Add(nuevoUsuario);
-                _context.SaveChanges();
+                var respuesta = _context.SaveChanges();
 
-                // Redirigir al inicio de sesión después del registro
-                //return RedirectToAction("Login");
+                if (respuesta > 0)
+                {
+                    //Registro el cliente tambien 
+                    // Obtener los datos adicionales del formulario
+                    var nombre = Request.Form["Nombre"];
+                    var apellido = Request.Form["Apellido"];
+                    var direccion = Request.Form["Direccion"];
+                    var telefono = Request.Form["Telefono"];
+                    var fechaNacimiento = DateTime.Parse(Request.Form["FechaNacimiento"]);
 
-                // Volver a la misma vista con el modelo actualizado
-                return View(nuevoUsuario);
+                    // Crear un cliente relacionado con el usuario
+                    var nuevoCliente = new Cliente
+                    {
+                        UsuarioID = nuevoUsuario.UsuarioID,
+                        Nombre = nombre,
+                        Apellido = apellido,
+                        Direccion = direccion,
+                        Telefono = telefono,
+                        FechaNacimiento = fechaNacimiento,
+                        FechaAdicion = DateTime.Now,
+                        AdicionadoPor = "AppUser"
+                    };
+
+                    _context.Clientes.Add(nuevoCliente);
+                    _context.SaveChanges();
+
+                    // Volver a la misma vista con el modelo actualizado
+                    return View(nuevoUsuario);
+                }
             }
 
             return View(nuevoUsuario);
