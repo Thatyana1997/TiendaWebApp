@@ -1,6 +1,6 @@
 ﻿@model List<Categoria>
 
-<div class="container">
+<div class="container"> 
     <div class="text-center">
         <div class="welcome-container">
             <h1>¡Bienvenido a <span class="store-name">El Chunche Online</span>!</h1>
@@ -17,6 +17,13 @@
             <p>¡Comienza tu experiencia de compra ahora y déjanos ser parte de tu día a día! 😊</p>
         </div>
     </div>
+
+    <form method="get" asp-action="Index" asp-controller="Productos" class="search-form">
+        <div class="input-field">
+            <input type="text" id="searchTerm" name="searchTerm" value="@ViewData["SearchTerm"]" placeholder="Buscar productos...">
+            <button type="submit" class="btn waves-effect waves-light blue">Buscar</button>
+        </div>
+    </form> 
 
     @if (Model != null && Model.Any())
     {

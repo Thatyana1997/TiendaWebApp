@@ -16,12 +16,32 @@ namespace TiendaWebApp.Controllers
             _context = context;
         } 
 
-        public IActionResult Index()
+        public IActionResult Index(string searchTerm)
         {
             // Obtener categorías desde la base de datos
             var categorias = _context.Categorias
                 .Include(c => c.Productos)  
                 .ToList();
+
+
+
+            // Filtrar productos si se proporciona un término de búsqueda
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                foreach (var categoria in categorias)
+                {
+                    categoria.Productos = categoria.Productos
+                        .Where(p => p.Nombre.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
+                                    p.Descripcion.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
+                        .ToList();
+                }
+
+                // Eliminar categorías sin productos después del filtro
+                categorias = categorias.Where(c => c.Productos.Any()).ToList();
+            }
+
+            // Pasar el término de búsqueda a la vista
+            ViewData["SearchTerm"] = searchTerm;
 
             return View(categorias);
         }

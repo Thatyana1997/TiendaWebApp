@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using TiendaWebApp.Models;
 
@@ -43,7 +45,7 @@ namespace TiendaWebApp.Controllers
         public IActionResult Registro()
         {
             return View();
-        }
+        } 
 
         [HttpPost]
         public IActionResult Registro(Usuario nuevoUsuario)
